@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class NewsModel {
+class NewsModel extends ChangeNotifier {
   int id;
   String title;
   String description;
@@ -12,6 +14,7 @@ class NewsModel {
   String created_at;
   String updated_at;
   String author;
+  bool isFavorite = true;
   NewsModel({
     required this.id,
     required this.title,
@@ -38,6 +41,15 @@ class NewsModel {
       'updated_at': updated_at,
       'author': author,
     };
+  }
+
+  void toggleIsFavorite() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
+
+  void handleRemoveIsFavorite() {
+    isFavorite = false;
   }
 
   factory NewsModel.fromMap(Map<String, dynamic> map) {

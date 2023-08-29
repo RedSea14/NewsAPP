@@ -11,14 +11,14 @@ class CategoryProvider extends ChangeNotifier {
     return [...listCategoryById];
   }
 
-  late CategoryModel cate;
   Future<List<CategoryModel>> getListCate() async {
     listCategory = await CategoryRepository().getListCategoryRepository();
     return listCategory;
   }
 
   Future<List<CategoryModel>> getListCateById(id) async {
-    cate = await CategoryRepository().getCategoryByIdRepository(id);
+    CategoryModel cate =
+        await CategoryRepository().getCategoryByIdRepository(id);
     listCategoryById.add(cate);
     return listCategoryById;
   }

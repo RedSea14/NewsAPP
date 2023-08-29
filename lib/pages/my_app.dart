@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newapp/provider/category_provider.dart';
+import 'package:newapp/provider/news_provider.dart';
 import 'package:newapp/provider/theme_provider.dart';
 import 'package:newapp/router/app_route_config.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NewsProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(

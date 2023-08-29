@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:newapp/provider/theme_provider.dart';
+import 'package:newapp/router/app_route_constants.dart';
 import 'package:provider/provider.dart';
 
 class NavBar extends StatefulWidget {
@@ -56,7 +57,7 @@ class _NavBarState extends State<NavBar> {
               style: TextStyle(fontSize: 20),
             ),
             onTap: () {
-              context.go('/categoryselect');
+              context.go(MyAppRouteConstants.categoryselectRouteName);
             },
           ),
           ListTile(
@@ -82,7 +83,7 @@ class _NavBarState extends State<NavBar> {
               style: TextStyle(fontSize: 20),
             ),
             onTap: () {
-              // Handle Favorites tap
+              context.go(MyAppRouteConstants.favoriteRouteName);
             },
           ),
           ListTile(
