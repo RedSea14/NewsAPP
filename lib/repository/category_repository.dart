@@ -60,7 +60,7 @@ class CategoryRepository {
     }
   }
 
-  Future<List<NewsModel>> getNewsCategoryRepository(id) async {
+  Future<List<NewsModel>> getNewsByCategoryRepository(id) async {
     try {
       final url =
           'http://apiforlearning.zendvn.com/api/categories_news/$id/articles';

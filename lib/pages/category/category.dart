@@ -7,22 +7,23 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class CategoryPage extends StatelessWidget {
-  CategoryPage({super.key, required this.categoryid});
-  // ignore: prefer_typing_uninitialized_variables
-  var categoryid;
+  CategoryPage({super.key, required this.data});
+  var data;
 
   @override
   Widget build(BuildContext context) {
-    // print(categoryid['categoryid']);
-    // var news = Provider.of<CategoryProvider>(context)
-    //     .getNewsCate(categoryid['categoryid']);
+    print('dsdsadsa');
+    // print(data['categoryid']);
+    // print(data['tiltle']);
+    // var news =
+    //     Provider.of<CategoryProvider>(context).getNewsCate(data['categoryid']);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'Thể thao',
-          style: TextStyle(
+        title: Text(
+          data['tiltle'].toString(),
+          style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -30,12 +31,12 @@ class CategoryPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context
-                .go(MyAppRouteConstants.homeRouteName); // Điều hướng quay lại
+            context.goNamed(
+                MyAppRouteConstants.homeRouteName); // Điều hướng quay lại
           },
         ),
       ),
-      body: CategoryBody(id: categoryid['categoryid']),
+      body: CategoryBody(id: data['categoryid']),
     );
   }
 }

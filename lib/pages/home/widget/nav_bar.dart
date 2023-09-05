@@ -12,8 +12,6 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  final bool _isSwitched = false;
-
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -57,7 +55,7 @@ class _NavBarState extends State<NavBar> {
               style: TextStyle(fontSize: 20),
             ),
             onTap: () {
-              context.go(MyAppRouteConstants.categoryselectRouteName);
+              context.goNamed(MyAppRouteConstants.categoryselectRouteName);
             },
           ),
           ListTile(

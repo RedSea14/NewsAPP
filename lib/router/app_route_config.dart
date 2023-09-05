@@ -17,34 +17,38 @@ class MyAppRouter {
         pageBuilder: (context, state) {
           return const MaterialPage(child: HomeBody());
         },
-      ),
-      GoRoute(
-        name: MyAppRouteConstants.categoryselectRouteName,
-        path: MyAppRouteConstants.categoryselectRouteName,
-        pageBuilder: (context, state) {
-          return const MaterialPage(child: CategorySelectionScreen());
-        },
-      ),
-      GoRoute(
-        name: MyAppRouteConstants.categoryRouteName,
-        path: MyAppRouteConstants.categoryRouteName,
-        pageBuilder: (context, state) {
-          return MaterialPage(
-              child: CategoryPage(
-            categoryid: state.extra,
-          ));
-        },
-      ),
-      GoRoute(
-        name: MyAppRouteConstants.newsRouteName,
-        path: MyAppRouteConstants.newsRouteName,
-        pageBuilder: (context, state) {
-          return MaterialPage(
-            child: NewsPage(
-              id: state.extra,
-            ),
-          );
-        },
+        routes: [
+          GoRoute(
+            name: MyAppRouteConstants.categoryselectRouteName,
+            path: MyAppRouteConstants.categoryselectRouteName,
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: CategorySelectionScreen());
+            },
+          ),
+          GoRoute(
+              name: MyAppRouteConstants.categoryRouteName,
+              path: MyAppRouteConstants.categoryRouteName,
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  child: CategoryPage(
+                    data: state.extra,
+                  ),
+                );
+              },
+              routes: [
+                GoRoute(
+                  name: MyAppRouteConstants.newsRouteName,
+                  path: MyAppRouteConstants.newsRouteName,
+                  pageBuilder: (context, state) {
+                    return MaterialPage(
+                      child: NewsPage(
+                        id: state.extra,
+                      ),
+                    );
+                  },
+                ),
+              ]),
+        ],
       ),
       GoRoute(
         name: MyAppRouteConstants.favoriteRouteName,

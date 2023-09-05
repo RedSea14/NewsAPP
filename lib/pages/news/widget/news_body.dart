@@ -18,7 +18,7 @@ class NewsBody extends StatefulWidget {
 class _NewsBodyState extends State<NewsBody> {
   @override
   Widget build(BuildContext context) {
-    bool change = true;
+    bool change = false;
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:newapp/model/category_model.dart';
 import 'package:newapp/provider/category_provider.dart';
+import 'package:newapp/router/app_route_constants.dart';
 import 'package:provider/provider.dart';
 
 class CategorySelectionScreen extends StatefulWidget {
@@ -48,6 +49,9 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                       crossAxisCount: 2,
                     ),
                     itemBuilder: (context, index) {
+                      valueCheck =
+                          Provider.of<CategoryProvider>(context, listen: false)
+                              .checkIndex(data[index]);
                       return Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -63,7 +67,11 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                                   if (valueCheck == true) {
                                     Provider.of<CategoryProvider>(context,
                                             listen: false)
-                                        .getListCateById(data[index].id);
+                                        .getListCateByIdStream(data[index].id);
+                                  } else {
+                                    Provider.of<CategoryProvider>(context,
+                                            listen: false)
+                                        .deleteCateById(data[index].id);
                                   }
                                 });
                               },
@@ -86,7 +94,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    context.go('/');
+                    Navigator.pop(context);
                   },
                   child: Container(
                     width: 150,

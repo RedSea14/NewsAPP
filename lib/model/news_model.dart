@@ -14,7 +14,7 @@ class NewsModel extends ChangeNotifier {
   String created_at;
   String updated_at;
   String author;
-  bool isFavorite = true;
+  bool isFavorite = false;
   NewsModel({
     required this.id,
     required this.title,
@@ -27,6 +27,15 @@ class NewsModel extends ChangeNotifier {
     required this.updated_at,
     required this.author,
   });
+
+  void toggleIsFavorite() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
+
+  void handleRemoveIsFavorite() {
+    isFavorite = false;
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -41,15 +50,6 @@ class NewsModel extends ChangeNotifier {
       'updated_at': updated_at,
       'author': author,
     };
-  }
-
-  void toggleIsFavorite() {
-    isFavorite = !isFavorite;
-    notifyListeners();
-  }
-
-  void handleRemoveIsFavorite() {
-    isFavorite = false;
   }
 
   factory NewsModel.fromMap(Map<String, dynamic> map) {

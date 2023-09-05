@@ -6,11 +6,12 @@ import 'package:newapp/router/app_route_constants.dart';
 import 'package:provider/provider.dart';
 
 class CategoryBody extends StatefulWidget {
-  const CategoryBody({
-    super.key,
+  CategoryBody({
+    Key? key, // Use 'Key?' instead of 'super.key'
     required this.id,
-  });
-  final int id;
+  }) : super(key: key); // Call the superclass constructor with 'key'
+
+  var id;
 
   @override
   State<CategoryBody> createState() => _CategoryBodyState();
@@ -28,36 +29,38 @@ class _CategoryBodyState extends State<CategoryBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 15,
-        ),
-        child: FutureBuilder(
-          future: listNewCategory,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text(snapshot.error.toString()),
+      padding: const EdgeInsets.symmetric(
+        vertical: 15,
+        horizontal: 15,
+      ),
+      child: FutureBuilder(
+        future: listNewCategory,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          List<NewsModel> data = snapshot.data as List<NewsModel>;
+          return ListView.separated(
+            itemCount: 10,
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(
+                height: 10,
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            List<NewsModel> data = snapshot.data as List<NewsModel>;
-            return ListView.separated(
-              itemCount: 10,
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    context.goNamed(MyAppRouteConstants.newsRouteName,
-                        extra: {"id": data[index].id});
-                  },
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap: () {
+                  context.goNamed(MyAppRouteConstants.newsRouteName,
+                      extra: {"id": data[index].id});
+                },
+                child: ChangeNotifierProvider.value(
+                  value: data[index],
                   child: Container(
                     padding: const EdgeInsets.only(right: 20),
                     width: double.infinity,
@@ -113,28 +116,32 @@ class _CategoryBodyState extends State<CategoryBody> {
                                   fontSize: 10,
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const Icon(
-                                    Icons.remove_red_eye,
-                                    color: Colors.grey,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      data[index].toggleIsFavorite();
-                                    },
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: data[index].isFavorite
-                                          ? Colors.red
-                                          : Colors.grey,
-                                    ),
-                                  ),
-                                ],
+                              Consumer<NewsModel>(
+                                builder: (context, value, child) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const Icon(
+                                        Icons.remove_red_eye,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          value.toggleIsFavorite();
+                                        },
+                                        child: Icon(
+                                          Icons.favorite,
+                                          color: data[index].isFavorite
+                                              ? Colors.red
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               )
                             ],
                           ),
@@ -142,10 +149,12 @@ class _CategoryBodyState extends State<CategoryBody> {
                       ],
                     ),
                   ),
-                );
-              },
-            );
-          },
-        ));
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

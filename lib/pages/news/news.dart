@@ -41,8 +41,7 @@ class _NewsPageState extends State<NewsPage> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                context.go(
-                    MyAppRouteConstants.homeRouteName); // Điều hướng quay lại
+                Navigator.pop(context); // Điều hướng quay lại
               },
             ),
           ),
