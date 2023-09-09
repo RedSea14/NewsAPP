@@ -14,6 +14,7 @@ class NewsModel extends ChangeNotifier {
   String created_at;
   String updated_at;
   String author;
+  String link;
   bool isFavorite = false;
   NewsModel({
     required this.id,
@@ -26,6 +27,7 @@ class NewsModel extends ChangeNotifier {
     required this.created_at,
     required this.updated_at,
     required this.author,
+    required this.link,
   });
 
   void toggleIsFavorite() {
@@ -49,6 +51,7 @@ class NewsModel extends ChangeNotifier {
       'created_at': created_at,
       'updated_at': updated_at,
       'author': author,
+      'link': link,
     };
   }
 
@@ -64,6 +67,7 @@ class NewsModel extends ChangeNotifier {
       created_at: map['created_at'] as String,
       updated_at: map['updated_at'] as String,
       author: map['author'] as String,
+      link: map['link'] as String,
     );
   }
 

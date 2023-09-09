@@ -81,7 +81,7 @@ class _NavBarState extends State<NavBar> {
               style: TextStyle(fontSize: 20),
             ),
             onTap: () {
-              context.go(MyAppRouteConstants.favoriteRouteName);
+              context.goNamed(MyAppRouteConstants.favoriteRouteName);
             },
           ),
           ListTile(

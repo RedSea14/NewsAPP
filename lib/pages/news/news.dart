@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:newapp/model/news_model.dart';
-import 'package:newapp/pages/news/widget/custom_tag.dart';
-import 'package:newapp/pages/news/widget/new_headline.dart';
-import 'package:newapp/pages/news/widget/news_body.dart';
 import 'package:newapp/provider/news_provider.dart';
-import 'package:newapp/router/app_route_constants.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsPage extends StatefulWidget {
   NewsPage({super.key, required this.id});
@@ -23,44 +18,51 @@ class _NewsPageState extends State<NewsPage> {
     return FutureBuilder(
       future: context.read<NewsProvider>().getNewsById(widget.id['id']),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (!snapshot.hasData) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
         NewsModel data = snapshot.data as NewsModel;
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context); // Điều hướng quay lại
+        final controller = WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(const Color(0x00000000));
+        if (data.link.contains('#')) {
+          // Load a custom HTML error page for 404 errors.
+          controller.loadRequest(Uri.parse('http://example.com/error.html'));
+        } else {
+          controller.setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {
+                // Update loading bar.
+              },
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onWebResourceError: (WebResourceError error) {
+                if (error.errorCode == 404) {
+                  // Load your custom error page when a 404 error occurs
+                }
               },
             ),
-          ),
-          body: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(data.thumb),
-                fit: BoxFit.cover,
+          );
+
+          controller.loadRequest(Uri.parse(data.link));
+        }
+        return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context); // Điều hướng quay lại
+                },
               ),
             ),
-            child: ListView(
-              children: [
-                NewsHeadline(news: data),
-                NewsBody(news: data),
-              ],
-            ),
-          ),
-        );
+            body: WebViewWidget(controller: controller));
       },
     );
   }

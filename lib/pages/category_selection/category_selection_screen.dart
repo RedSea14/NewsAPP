@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:newapp/model/category_model.dart';
 import 'package:newapp/provider/category_provider.dart';
-import 'package:newapp/router/app_route_constants.dart';
+import 'package:newapp/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class CategorySelectionScreen extends StatefulWidget {
@@ -27,10 +26,11 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
           future: context.read<CategoryProvider>().getListCate(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(
-                child: Text(snapshot.error.toString()),
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -94,6 +94,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                 ),
                 InkWell(
                   onTap: () {
+                    context.read<ThemeProvider>().close();
                     Navigator.pop(context);
                   },
                   child: Container(

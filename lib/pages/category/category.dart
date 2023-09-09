@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class CategoryPage extends StatelessWidget {
   CategoryPage({super.key, required this.data});
+  // ignore: prefer_typing_uninitialized_variables
   var data;
 
   @override
   Widget build(BuildContext context) {
-    print('dsdsadsa');
     // print(data['categoryid']);
     // print(data['tiltle']);
     // var news =

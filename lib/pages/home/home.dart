@@ -4,6 +4,8 @@ import 'package:newapp/model/category_model.dart';
 import 'package:newapp/model/news_model.dart';
 import 'package:newapp/pages/home/widget/nav_bar.dart';
 import 'package:newapp/provider/category_provider.dart';
+import 'package:newapp/provider/news_provider.dart';
+import 'package:newapp/provider/theme_provider.dart';
 import 'package:newapp/router/app_route_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +24,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-    print('dsadsa');
     return Scaffold(
+      key: context.read<ThemeProvider>().keyDrawer,
       drawerEnableOpenDragGesture: false,
       appBar: AppBar(
         centerTitle: true,
@@ -68,7 +70,7 @@ class _HomeBodyState extends State<HomeBody> {
                             ),
                             InkWell(
                               onTap: () {
-                                context.goNamed(
+                                context.pushNamed(
                                     MyAppRouteConstants.categoryRouteName,
                                     extra: {
                                       'categoryid': dataCategory[index].id,
@@ -86,7 +88,7 @@ class _HomeBodyState extends State<HomeBody> {
                           ],
                         ),
                         FutureBuilder(
-                          future: Provider.of<CategoryProvider>(context)
+                          future: Provider.of<NewsProvider>(context)
                               .getNewsCate(dataCategory[index].id),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
@@ -120,96 +122,113 @@ class _HomeBodyState extends State<HomeBody> {
                                           MyAppRouteConstants.newsRouteName,
                                           extra: {"id": data[index].id});
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.only(right: 20),
-                                      width: double.infinity,
-                                      height: 120,
-                                      child: Row(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadiusDirectional
-                                                    .circular(10),
-                                            child: Image.network(
-                                              data[index].thumb,
-                                              width: 150,
-                                              height: 120,
-                                              fit: BoxFit.cover,
+                                    child: ChangeNotifierProvider.value(
+                                      value: data[index],
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(right: 20),
+                                        width: double.infinity,
+                                        height: 120,
+                                        child: Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadiusDirectional
+                                                      .circular(10),
+                                              child: Image.network(
+                                                data[index].thumb,
+                                                width: 150,
+                                                height: 120,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 15,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data[index].title,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                Text(
-                                                  data[index].description,
-                                                  maxLines: 4,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.justify,
-                                                  style: const TextStyle(
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                Text(
-                                                  data[index].publish_date,
-                                                  style: const TextStyle(
-                                                    color: Colors.indigo,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.remove_red_eye,
-                                                      color: Colors.grey,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        data[index]
-                                                            .toggleIsFavorite();
-                                                      },
-                                                      child: Icon(
-                                                        Icons.favorite,
-                                                        color: data[index]
-                                                                .isFavorite
-                                                            ? Colors.red
-                                                            : Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
+                                            const SizedBox(
+                                              width: 15,
                                             ),
-                                          )
-                                        ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    data[index].title,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  Text(
+                                                    data[index].description,
+                                                    maxLines: 4,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: const TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  Text(
+                                                    data[index].publish_date,
+                                                    style: const TextStyle(
+                                                      color: Colors.indigo,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                  Consumer<NewsModel>(
+                                                    builder: (
+                                                      context,
+                                                      value,
+                                                      child,
+                                                    ) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          const Icon(
+                                                            Icons
+                                                                .remove_red_eye,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              value
+                                                                  .toggleIsFavorite();
+                                                            },
+                                                            child: Icon(
+                                                              Icons.favorite,
+                                                              color: data[index]
+                                                                      .isFavorite
+                                                                  ? Colors.red
+                                                                  : Colors.grey,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );

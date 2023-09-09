@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:newapp/model/news_model.dart';
+import 'package:newapp/pages/auth/login_page.dart';
 import 'package:newapp/pages/category_selection/category_selection_screen.dart';
 import 'package:newapp/pages/error/error.dart';
 import 'package:newapp/pages/favorite/favorite.dart';
@@ -48,15 +50,22 @@ class MyAppRouter {
                   },
                 ),
               ]),
+          GoRoute(
+            name: MyAppRouteConstants.favoriteRouteName,
+            path: MyAppRouteConstants.favoriteRouteName,
+            pageBuilder: (context, state) {
+              return const MaterialPage(
+                child: FavoritePage(),
+              );
+            },
+          ),
         ],
       ),
       GoRoute(
-        name: MyAppRouteConstants.favoriteRouteName,
-        path: MyAppRouteConstants.favoriteRouteName,
+        path: MyAppRouteConstants.authRouteName,
+        name: MyAppRouteConstants.authRouteName,
         pageBuilder: (context, state) {
-          return const MaterialPage(
-            child: FavoritePage(),
-          );
+          return MaterialPage(child: LoginPage());
         },
       ),
     ],

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:newapp/model/news_model.dart';
-import 'package:newapp/provider/category_provider.dart';
+import 'package:newapp/provider/news_provider.dart';
 import 'package:newapp/router/app_route_constants.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class CategoryBody extends StatefulWidget {
   CategoryBody({
     Key? key, // Use 'Key?' instead of 'super.key'
@@ -21,13 +22,13 @@ class _CategoryBodyState extends State<CategoryBody> {
   late Future listNewCategory;
   @override
   void didChangeDependencies() {
-    listNewCategory =
-        Provider.of<CategoryProvider>(context).getNewsCate(widget.id);
+    listNewCategory = Provider.of<NewsProvider>(context).getNewsCate(widget.id);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    var chage = true;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 15,
@@ -131,6 +132,9 @@ class _CategoryBodyState extends State<CategoryBody> {
                                       InkWell(
                                         onTap: () {
                                           value.toggleIsFavorite();
+                                          setState(() {
+                                            chage = !chage;
+                                          });
                                         },
                                         child: Icon(
                                           Icons.favorite,

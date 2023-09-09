@@ -65,36 +65,28 @@ class FavoritePage extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/product', arguments: {
-                      "id": data[index].id,
-                      "categoryId": data[index].id,
-                    });
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: GridTile(
-                      footer: GridTileBar(
-                        backgroundColor: Colors.white60,
-                        trailing: const Icon(
-                          Icons.swipe,
-                          size: 25,
-                        ),
-                        subtitle: Text(
-                          data[index].title,
-                        ),
+                child: Container(
+                  width: double.infinity,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: GridTile(
+                    footer: GridTileBar(
+                      backgroundColor: Colors.white60,
+                      trailing: const Icon(
+                        Icons.swipe,
+                        size: 25,
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          data[index].thumb,
-                          fit: BoxFit.cover,
-                        ),
+                      subtitle: Text(
+                        data[index].title,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        data[index].thumb,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

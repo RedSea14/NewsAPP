@@ -9,27 +9,14 @@ class CategoryProvider extends ChangeNotifier {
   final StreamController<List<CategoryModel>> _controller =
       StreamController<List<CategoryModel>>.broadcast();
   Stream<List<CategoryModel>> get categoryStream => _controller.stream;
-  List<CategoryModel> listCategory = [];
-  List<CategoryModel> listCategoryById = [];
-  List<NewsModel> listNews = [];
-  List<CategoryModel> get listItemdata {
-    return [...listCategoryById];
-  }
 
-  List<CategoryModel> get listCategorys {
-    return [...listCategory];
-  }
+  List<CategoryModel> listCategory = [];
+
+  List<CategoryModel> listCategoryById = [];
 
   Future<List<CategoryModel>> getListCate() async {
     listCategory = await CategoryRepository().getListCategoryRepository();
     return listCategory;
-  }
-
-  Future<List<CategoryModel>> getListCateById(id) async {
-    CategoryModel cate =
-        await CategoryRepository().getCategoryByIdRepository(id);
-    listCategoryById.add(cate);
-    return listCategoryById;
   }
 
   void getListCateByIdStream(id) async {
@@ -45,11 +32,6 @@ class CategoryProvider extends ChangeNotifier {
   }
 
   bool checkIndex(CategoryModel model) {
-    return listItemdata.any((element) => element.id == model.id);
-  }
-
-  Future<List<NewsModel>> getNewsCate(id) async {
-    listNews = await CategoryRepository().getNewsByCategoryRepository(id);
-    return listNews;
+    return listCategoryById.any((element) => element.id == model.id);
   }
 }
