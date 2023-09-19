@@ -13,8 +13,7 @@ class SharereferenceApp {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? action = prefs.getString(key);
     List data = jsonDecode(action ?? '[]');
-    List<CategoryModel> listData = List<CategoryModel>.from(
-        data.map((data) => CategoryModel.fromJson(data)));
-    return listData;
+    List<int> result = List<int>.from(data);
+    return result;
   }
 }

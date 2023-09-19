@@ -28,7 +28,6 @@ class _CategoryBodyState extends State<CategoryBody> {
 
   @override
   Widget build(BuildContext context) {
-    var chage = true;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 15,
@@ -48,7 +47,7 @@ class _CategoryBodyState extends State<CategoryBody> {
           }
           List<NewsModel> data = snapshot.data as List<NewsModel>;
           return ListView.separated(
-            itemCount: 10,
+            itemCount: data.length,
             separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(
                 height: 10,
@@ -117,35 +116,23 @@ class _CategoryBodyState extends State<CategoryBody> {
                                   fontSize: 10,
                                 ),
                               ),
-                              Consumer<NewsModel>(
-                                builder: (context, value, child) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      const Icon(
-                                        Icons.remove_red_eye,
-                                        color: Colors.grey,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          value.toggleIsFavorite();
-                                          setState(() {
-                                            chage = !chage;
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.favorite,
-                                          color: data[index].isFavorite
-                                              ? Colors.red
-                                              : Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: const Icon(
+                                      Icons.favorite,
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),

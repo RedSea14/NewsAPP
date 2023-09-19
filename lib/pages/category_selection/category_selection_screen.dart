@@ -49,44 +49,30 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                       crossAxisCount: 2,
                     ),
                     itemBuilder: (context, index) {
-                      valueCheck =
-                          Provider.of<CategoryProvider>(context, listen: false)
-                              .checkIndex(data[index]);
                       return Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.primaries[index],
                         ),
-                        child: StatefulBuilder(
-                          builder: (context, setState) {
-                            return CheckboxListTile(
-                              onChanged: (value) {
-                                setState(() {
-                                  valueCheck = value!;
-                                  if (valueCheck == true) {
-                                    Provider.of<CategoryProvider>(context,
-                                            listen: false)
-                                        .getListCateByIdStream(data[index].id);
-                                  } else {
-                                    Provider.of<CategoryProvider>(context,
-                                            listen: false)
-                                        .deleteCateById(data[index].id);
-                                  }
-                                });
-                              },
-                              value: valueCheck,
-                              title: Text(
-                                data[index].name,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        child: Consumer<CategoryProvider>(
+                          builder: (context, categoryProvider, child) =>
+                              CheckboxListTile(
+                            onChanged: (_) {
+                              categoryProvider.chooseCategory(data[index].id);
+                            },
+                            value: categoryProvider.listCategoryChoose
+                                .contains(data[index].id),
+                            title: Text(
+                              data[index].name,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
                       );
                     },

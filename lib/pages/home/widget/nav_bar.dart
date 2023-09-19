@@ -84,32 +84,6 @@ class _NavBarState extends State<NavBar> {
               context.goNamed(MyAppRouteConstants.favoriteRouteName);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.remove_red_eye),
-            trailing: ClipOval(
-              child: Container(
-                color: Colors.amber,
-                width: 20,
-                height: 20,
-                child: const Center(
-                  child: Text(
-                    '8',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            title: const Text(
-              'Seen',
-              style: TextStyle(fontSize: 20),
-            ),
-            onTap: () {
-              // Handle Favorites tap
-            },
-          ),
           ExpansionTile(
             leading: const Icon(Icons.settings),
             title: const Text(

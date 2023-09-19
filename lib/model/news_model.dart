@@ -15,7 +15,7 @@ class NewsModel extends ChangeNotifier {
   String updated_at;
   String author;
   String link;
-  bool isFavorite = false;
+  Map category;
   NewsModel({
     required this.id,
     required this.title,
@@ -28,16 +28,8 @@ class NewsModel extends ChangeNotifier {
     required this.updated_at,
     required this.author,
     required this.link,
+    required this.category,
   });
-
-  void toggleIsFavorite() {
-    isFavorite = !isFavorite;
-    notifyListeners();
-  }
-
-  void handleRemoveIsFavorite() {
-    isFavorite = false;
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -52,23 +44,26 @@ class NewsModel extends ChangeNotifier {
       'updated_at': updated_at,
       'author': author,
       'link': link,
+      'category': category,
     };
   }
 
   factory NewsModel.fromMap(Map<String, dynamic> map) {
     return NewsModel(
-      id: map['id'] as int,
-      title: map['title'] as String,
-      description: map['description'] as String,
-      content: map['content'] as String,
-      thumb: map['thumb'] as String,
-      category_id: map['category_id'] as int,
-      publish_date: map['publish_date'] as String,
-      created_at: map['created_at'] as String,
-      updated_at: map['updated_at'] as String,
-      author: map['author'] as String,
-      link: map['link'] as String,
-    );
+        id: map['id'] as int,
+        title: map['title'] as String,
+        description: map['description'] as String,
+        content: map['content'] as String,
+        thumb: map['thumb'] as String,
+        category_id: map['category_id'] as int,
+        publish_date: map['publish_date'] as String,
+        created_at: map['created_at'] as String,
+        updated_at: map['updated_at'] as String,
+        author: map['author'] as String,
+        link: map['link'] as String,
+        category: Map.from(
+          (map['category'] as Map),
+        ));
   }
 
   String toJson() => json.encode(toMap());

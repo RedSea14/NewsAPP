@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => CategoryProvider(),
+          create: (context) => CategoryProvider()..getDataFormSha(),
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
@@ -66,12 +66,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    List data = context.read<CategoryProvider>().listCategoryById;
     if (state == AppLifecycleState.inactive) {
-      await SharereferenceApp.saveListData('list', data);
+      List<int> data = context.read<CategoryProvider>().listCategoryChoose;
+      print(data);
+      await SharereferenceApp.saveListData('demo', data);
     }
     if (state == AppLifecycleState.resumed) {
-      var result = await SharereferenceApp.getListData('list');
+      var result = await SharereferenceApp.getListData('demo');
       print(result);
     }
   }

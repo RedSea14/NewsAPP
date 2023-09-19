@@ -5,4 +5,5 @@ class MyAppRouteConstants {
   static const String newsRouteName = 'news';
   static const String favoriteRouteName = 'favorite';
   static const String authRouteName = '/auth';
+  static const String searchRouteName = 'search';
 }
